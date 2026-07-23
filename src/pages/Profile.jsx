@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import {
+  FiArrowLeft,
   FiCheckCircle,
   FiAlertCircle,
   FiEye,
@@ -12,8 +13,10 @@ import {
   FiShield,
 } from "react-icons/fi";
 import "./Profile.css";
+import { useNavigate } from "react-router-dom";
 
 export default function Profile() {
+  const navigate = useNavigate();
   const [userData, setUserData] = useState(() => {
     const currentUserEmail = localStorage.getItem("currentUser");
     const users = JSON.parse(localStorage.getItem("users")) || {};
@@ -89,6 +92,9 @@ export default function Profile() {
   return (
     <div className="profile-page">
       <div className="profile-header-card">
+        <button className="back-to-home-btn" onClick={() => navigate("/")}>
+          <FiArrowLeft />
+        </button>
         <div className="header-banner"></div>
         <div className="header-content">
           <div className="profile-avatar">{initials}</div>
