@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-// import { FiTrash2 } from "react-icons/fi";
+import { FiSearch } from "react-icons/fi";
 import TodoInput from "../components/TodoInput";
 import TodoList from "../components/TodoList";
 import ConfirmationModal from "../components/ConfirmationModal";
@@ -15,6 +15,7 @@ export default function Home() {
   const [inputValue, setInputValue] = useState("");
   const [editingId, setEditingId] = useState(null);
   const [activeTab, setActiveTab] = useState("all");
+  const [searchQuery, setSearchQuery] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -102,23 +103,27 @@ export default function Home() {
   };
 
   const filteredTodos = (() => {
+    let result = todos;
+
     switch (activeTab) {
       case "completed":
-        return todos.filter((todo) => todo.completed);
+        result = result.filter((todo) => todo.completed);
+        break;
       case "pending":
-        return todos.filter((todo) => !todo.completed);
+        result = result.filter((todo) => !todo.completed);
+        break;
       default:
-        return todos;
+        break;
     }
+
+    if (searchQuery.trim()) {
+      result = result.filter((todo) =>
+        todo.todoName.toLowerCase().includes(searchQuery.toLowerCase()),
+      );
+    }
+
+    return result;
   })();
-
-  // const deleteAllTodos = () => {
-  //   setTodos([]);
-  // };
-
-  // const deleteCompletedTodos = () => {
-  //   setTodos((prev) => prev.filter((todo) => !todo.completed));
-  // };
 
   const openConfirmationModal = (title, message, callback) => {
     setModalConfig({ title, message });
@@ -139,37 +144,8 @@ export default function Home() {
     );
   };
 
-  // const handleDeleteAllClick = () => {
-  //   if (todos.length === 0) return;
-  //   openConfirmationModal(
-  //     "Delete All Todos?",
-  //     "Warning: This will delete every todo in your list. This action cannot be undone.",
-  //     deleteAllTodos,
-  //   );
-  // };
-
-  // const handleDeleteCompletedClick = () => {
-  //   if (!todos.some((todo) => todo.completed)) return;
-  //   openConfirmationModal(
-  //     "Delete Completed Todos?",
-  //     "This will permanently remove all completed todos. This action cannot be undone.",
-  //     deleteCompletedTodos,
-  //   );
-  // };
-
   return (
     <>
-      <div className="main-header">
-        <h2>My Todos</h2>
-        <span className="date">
-          {new Date().toLocaleDateString("en-US", {
-            weekday: "long",
-            month: "short",
-            day: "numeric",
-          })}
-        </span>
-      </div>
-
       <section className="input-section">
         <TodoInput
           addTodo={addTodo}
@@ -185,6 +161,18 @@ export default function Home() {
           <h3 className="section-title">TodoList</h3>
 
           <div className="list-actions-group">
+            <div className="search-wrapper">
+              <FiSearch className="search-icon" />
+              <input
+                type="text"
+                className="search-input"
+                placeholder="Search todos..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                disabled={isLoading}
+              />
+            </div>
+
             <div className="filter-dropdown-wrapper">
               <select
                 className="filter-dropdown"
@@ -197,23 +185,6 @@ export default function Home() {
                 <option value="pending">Pending</option>
               </select>
             </div>
-
-            {/* <div className="list-actions">
-              <button
-                className="list-action-btn"
-                onClick={handleDeleteCompletedClick}
-                disabled={isLoading}
-              >
-                Clear Completed
-              </button>
-              <button
-                className="list-action-btn danger"
-                onClick={handleDeleteAllClick}
-                disabled={isLoading}
-              >
-                <FiTrash2 /> Delete All
-              </button>
-            </div> */}
           </div>
         </div>
 
