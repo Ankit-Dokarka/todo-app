@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { FiCheckSquare, FiUser, FiKey, FiLogOut } from "react-icons/fi";
+import { FiCheckSquare, FiUser, FiKey, FiLogOut, FiBell } from "react-icons/fi";
 import "./Header.css";
 import { useNavigate } from "react-router-dom";
 
@@ -30,56 +30,62 @@ export default function Header({ handleLogout }) {
         <h1>Todo Manager</h1>
       </div>
 
-      <div className="user-dropdown-wrapper" ref={dropdownRef}>
-        <button
-          className="user-avatar-btn"
-          onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-          aria-label="User menu"
-        >
-          {firstLetter}
+      <div className="header-actions">
+        <button className="header-icon-btn" aria-label="Notifications">
+          <FiBell size={18} />
         </button>
 
-        {isDropdownOpen && (
-          <div className="user-dropdown-menu">
-            <div className="dropdown-header">
-              <span className="dropdown-label">Signed in as</span>
-              <strong className="dropdown-email">{currentUserEmail}</strong>
+        <div className="user-dropdown-wrapper" ref={dropdownRef}>
+          <button
+            className="user-avatar-btn"
+            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+            aria-label="User menu"
+          >
+            {firstLetter}
+          </button>
+
+          {isDropdownOpen && (
+            <div className="user-dropdown-menu">
+              <div className="dropdown-header">
+                <span className="dropdown-label">Signed in as</span>
+                <strong className="dropdown-email">{currentUserEmail}</strong>
+              </div>
+
+              <div className="dropdown-divider" />
+
+              <button
+                className="dropdown-item"
+                onClick={() => {
+                  setIsDropdownOpen(false);
+                  navigate("/profile");
+                }}
+              >
+                <FiUser /> My Profile
+              </button>
+              <button
+                className="dropdown-item"
+                onClick={() => {
+                  setIsDropdownOpen(false);
+                  navigate("/settings");
+                }}
+              >
+                <FiKey /> Change Password
+              </button>
+
+              <div className="dropdown-divider" />
+
+              <button
+                className="dropdown-item logout-item"
+                onClick={() => {
+                  setIsDropdownOpen(false);
+                  handleLogout();
+                }}
+              >
+                <FiLogOut /> Logout
+              </button>
             </div>
-
-            <div className="dropdown-divider" />
-
-            <button
-              className="dropdown-item"
-              onClick={() => {
-                setIsDropdownOpen(false);
-                navigate("/profile");
-              }}
-            >
-              <FiUser /> My Profile
-            </button>
-            <button
-              className="dropdown-item"
-              onClick={() => {
-                setIsDropdownOpen(false);
-                navigate("/settings");
-              }}
-            >
-              <FiKey /> Change Password
-            </button>
-
-            <div className="dropdown-divider" />
-
-            <button
-              className="dropdown-item logout-item"
-              onClick={() => {
-                setIsDropdownOpen(false);
-                handleLogout();
-              }}
-            >
-              <FiLogOut /> Logout
-            </button>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </header>
   );
