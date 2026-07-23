@@ -120,7 +120,7 @@ function App() {
   const handleDeleteTodoClick = (id) => {
     openConfirmationModal(
       "Delete Todo?",
-      "Are you sure you want to delete this task? This action cannot be undone.",
+      "Are you sure you want to delete this todo? This action cannot be undone.",
       () => deleteTodo(id),
     );
   };
@@ -128,8 +128,8 @@ function App() {
   const handleDeleteAllClick = () => {
     if (todos.length === 0) return;
     openConfirmationModal(
-      "Delete All Tasks?",
-      "Warning: This will delete every task in your list. This action cannot be undone.",
+      "Delete All Todos?",
+      "Warning: This will delete every todo in your list. This action cannot be undone.",
       deleteAllTodos,
     );
   };
@@ -137,8 +137,8 @@ function App() {
   const handleDeleteCompletedClick = () => {
     if (!todos.some((todo) => todo.completed)) return;
     openConfirmationModal(
-      "Delete Completed Tasks?",
-      "This will permanently remove all completed tasks. This action cannot be undone.",
+      "Delete Completed Todos?",
+      "This will permanently remove all completed todos. This action cannot be undone.",
       deleteCompletedTodos,
     );
   };
@@ -148,7 +148,7 @@ function App() {
       <header className="app-header">
         <div className="header-brand">
           <FiCheckSquare size={24} />
-          <h1>Task Manager</h1>
+          <h1>Todo Manager</h1>
         </div>
 
         <div className="header-actions">
@@ -173,7 +173,7 @@ function App() {
 
       <main className="app-main">
         <div className="main-header">
-          <h2>My Tasks</h2>
+          <h2>My Todos</h2>
           <span className="date">
             {new Date().toLocaleDateString("en-US", {
               weekday: "long",
@@ -202,7 +202,7 @@ function App() {
                 value={activeTab}
                 onChange={(e) => handleTabs(e.target.value)}
               >
-                <option value="all">All Tasks</option>
+                <option value="all">All Todos</option>
                 <option value="completed">Completed</option>
                 <option value="pending">Pending</option>
               </select>

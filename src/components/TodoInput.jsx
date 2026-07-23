@@ -11,7 +11,7 @@ export default function TodoInput({
     <div className="todo-input-container">
       <input
         type="text"
-        placeholder="Add a new task..."
+        placeholder="Add a new todo..."
         className="todo-input"
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
@@ -22,7 +22,7 @@ export default function TodoInput({
         disabled={!inputValue.trim()}
       >
         {editId ? <FiEdit2 /> : <FiPlus />}
-        {editId ? <p>Update</p> : <p>Add Task</p>}
+        {editId ? <p>Update</p> : <p>Add Todo</p>}
       </button>
     </div>
   );

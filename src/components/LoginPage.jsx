@@ -48,7 +48,7 @@ export default function LoginPage() {
       <form className="login-card" onSubmit={handleSubmit(onSubmit)} noValidate>
         <div className="login-brand">
           <FiCheckSquare size={32} />
-          <h1>Task Manager</h1>
+          <h1>Todo Manager</h1>
         </div>
 
         {loginError && <div className="login-error-box">{loginError}</div>}
@@ -96,7 +96,7 @@ export default function LoginPage() {
         <button type="submit" className="login-btn" disabled={isSubmitting}>
           {isSubmitting ? (
             <>
-              <FiLoader className="spin" /> Logging in....
+              <FiLoader className="spin" /> Logging in...
             </>
           ) : (
             <>
