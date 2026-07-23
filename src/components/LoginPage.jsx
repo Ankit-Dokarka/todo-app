@@ -80,169 +80,189 @@ export default function LoginPage() {
 
   return (
     <div className="login-page">
-      <form className="login-card" onSubmit={handleSubmit(onSubmit)} noValidate>
-        <div className="login-brand">
-          <FiCheckSquare size={32} />
-          <h1>Todo Manager</h1>
-        </div>
+      <div className="login-image-container">
+        <img src="/bg-image.png" alt="Todo App Background" />
+        {/* <div className="image-overlay">
+          <h2>Organize your work seamlessly.</h2>
+          <p>
+            Sign in to access your personalized todo dashboard and stay
+            productive.
+          </p>
+        </div> */}
+      </div>
 
-        <div className="auth-toggle">
-          <button
-            type="button"
-            className={isLogin ? "active" : ""}
-            onClick={() => !isLogin && toggleMode()}
-          >
-            Login
-          </button>
-          <button
-            type="button"
-            className={!isLogin ? "active" : ""}
-            onClick={() => isLogin && toggleMode()}
-          >
-            Sign Up
-          </button>
-        </div>
+      <div className="login-form-container">
+        <div className="login-content">
+          <div className="login-brand">
+            <FiCheckSquare size={32} />
+            <h1>Todo Manager</h1>
+          </div>
 
-        {formError && <div className="login-error-box">{formError}</div>}
+          <div className="auth-toggle">
+            <span
+              className={`auth-toggle-indicator ${isLogin ? "left" : "right"}`}
+            ></span>
+            <button
+              type="button"
+              className={isLogin ? "active" : ""}
+              onClick={() => !isLogin && toggleMode()}
+            >
+              Login
+            </button>
+            <button
+              type="button"
+              className={!isLogin ? "active" : ""}
+              onClick={() => isLogin && toggleMode()}
+            >
+              Sign Up
+            </button>
+          </div>
 
-        {!isLogin && (
-          <div className="name-row">
+          <form onSubmit={handleSubmit(onSubmit)} noValidate>
+            {formError && <div className="login-error-box">{formError}</div>}
+
+            {!isLogin && (
+              <div className="name-row animated-fields">
+                <div className="login-input-group">
+                  <label htmlFor="firstName">First Name</label>
+                  <input
+                    id="firstName"
+                    type="text"
+                    placeholder="John"
+                    className={errors.firstName ? "input-error" : ""}
+                    {...register("firstName", {
+                      required: "First name is required",
+                      minLength: {
+                        value: 3,
+                        message: "Must be at least 3 characters",
+                      },
+                    })}
+                  />
+                  {errors.firstName && (
+                    <p className="error-message">{errors.firstName.message}</p>
+                  )}
+                </div>
+
+                <div className="login-input-group">
+                  <label htmlFor="lastName">Last Name</label>
+                  <input
+                    id="lastName"
+                    type="text"
+                    placeholder="Doe"
+                    className={errors.lastName ? "input-error" : ""}
+                    {...register("lastName", {
+                      required: "Last name is required",
+                    })}
+                  />
+                  {errors.lastName && (
+                    <p className="error-message">{errors.lastName.message}</p>
+                  )}
+                </div>
+              </div>
+            )}
+
             <div className="login-input-group">
-              <label htmlFor="firstName">First Name</label>
+              <label htmlFor="email">Email</label>
               <input
-                id="firstName"
-                type="text"
-                placeholder="John"
-                className={errors.firstName ? "input-error" : ""}
-                {...register("firstName", {
-                  required: "First name is required",
-                  minLength: {
-                    value: 3,
-                    message: "Must be at least 3 characters",
+                id="email"
+                type="email"
+                placeholder="Enter your email"
+                className={errors.email ? "input-error" : ""}
+                {...register("email", {
+                  required: "Email is required",
+                  pattern: {
+                    value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                    message: "Enter a valid email address",
                   },
                 })}
               />
-              {errors.firstName && (
-                <p className="error-message">{errors.firstName.message}</p>
+              {errors.email && (
+                <p className="error-message">{errors.email.message}</p>
               )}
             </div>
 
             <div className="login-input-group">
-              <label htmlFor="lastName">Last Name</label>
-              <input
-                id="lastName"
-                type="text"
-                placeholder="Doe"
-                className={errors.lastName ? "input-error" : ""}
-                {...register("lastName", {
-                  required: "Last name is required",
-                })}
-              />
-              {errors.lastName && (
-                <p className="error-message">{errors.lastName.message}</p>
+              <label htmlFor="password">Password</label>
+              <div className="password-wrapper">
+                <input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Enter your password"
+                  className={errors.password ? "input-error" : ""}
+                  {...register("password", {
+                    required: "Password is required",
+                    pattern: {
+                      value:
+                        /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{6,}$/,
+                      message: "Min 6 chars, 1 uppercase, 1 number, 1 symbol",
+                    },
+                  })}
+                />
+                <button
+                  type="button"
+                  className="eye-btn"
+                  onClick={() => setShowPassword(!showPassword)}
+                  aria-label="Toggle password visibility"
+                >
+                  {showPassword ? <FiEyeOff /> : <FiEye />}
+                </button>
+              </div>
+              {errors.password && (
+                <p className="error-message">{errors.password.message}</p>
               )}
             </div>
-          </div>
-        )}
 
-        <div className="login-input-group">
-          <label htmlFor="email">Email</label>
-          <input
-            id="email"
-            type="email"
-            placeholder="Enter your email"
-            className={errors.email ? "input-error" : ""}
-            {...register("email", {
-              required: "Email is required",
-              pattern: {
-                value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                message: "Enter a valid email address",
-              },
-            })}
-          />
-          {errors.email && (
-            <p className="error-message">{errors.email.message}</p>
-          )}
-        </div>
-
-        <div className="login-input-group">
-          <label htmlFor="password">Password</label>
-          <div className="password-wrapper">
-            <input
-              id="password"
-              type={showPassword ? "text" : "password"}
-              placeholder="Enter your password"
-              className={errors.password ? "input-error" : ""}
-              {...register("password", {
-                required: "Password is required",
-                pattern: {
-                  value:
-                    /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{6,}$/,
-                  message: "Min 6 chars, 1 uppercase, 1 number, 1 symbol",
-                },
-              })}
-            />
-            <button
-              type="button"
-              className="eye-btn"
-              onClick={() => setShowPassword(!showPassword)}
-              aria-label="Toggle password visibility"
-            >
-              {showPassword ? <FiEyeOff /> : <FiEye />}
-            </button>
-          </div>
-          {errors.password && (
-            <p className="error-message">{errors.password.message}</p>
-          )}
-        </div>
-
-        {!isLogin && (
-          <div className="login-input-group">
-            <label htmlFor="confirmPassword">Confirm Password</label>
-            <div className="password-wrapper">
-              <input
-                id="confirmPassword"
-                type={showConfirmPassword ? "text" : "password"}
-                placeholder="Re-enter your password"
-                className={errors.confirmPassword ? "input-error" : ""}
-                {...register("confirmPassword", {
-                  required: "Please confirm your password",
-                  validate: (value) =>
-                    value === password || "Passwords do not match",
-                })}
-              />
-              <button
-                type="button"
-                className="eye-btn"
-                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                aria-label="Toggle confirm password visibility"
-              >
-                {showConfirmPassword ? <FiEyeOff /> : <FiEye />}
-              </button>
-            </div>
-            {errors.confirmPassword && (
-              <p className="error-message">{errors.confirmPassword.message}</p>
+            {!isLogin && (
+              <div className="login-input-group animated-fields">
+                <label htmlFor="confirmPassword">Confirm Password</label>
+                <div className="password-wrapper">
+                  <input
+                    id="confirmPassword"
+                    type={showConfirmPassword ? "text" : "password"}
+                    placeholder="Re-enter your password"
+                    className={errors.confirmPassword ? "input-error" : ""}
+                    {...register("confirmPassword", {
+                      required: "Please confirm your password",
+                      validate: (value) =>
+                        value === password || "Passwords do not match",
+                    })}
+                  />
+                  <button
+                    type="button"
+                    className="eye-btn"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    aria-label="Toggle confirm password visibility"
+                  >
+                    {showConfirmPassword ? <FiEyeOff /> : <FiEye />}
+                  </button>
+                </div>
+                {errors.confirmPassword && (
+                  <p className="error-message">
+                    {errors.confirmPassword.message}
+                  </p>
+                )}
+              </div>
             )}
-          </div>
-        )}
 
-        <button type="submit" className="login-btn" disabled={isSubmitting}>
-          {isSubmitting ? (
-            <>
-              <FiLoader className="spin" />{" "}
-              {isLogin ? "Logging in..." : "Signing in.."}
-            </>
-          ) : isLogin ? (
-            <>
-              <FiLogIn /> Login
-            </>
-          ) : (
-            <>
-              <FiUserPlus /> Sign Up
-            </>
-          )}
-        </button>
-      </form>
+            <button type="submit" className="login-btn" disabled={isSubmitting}>
+              {isSubmitting ? (
+                <>
+                  <FiLoader className="spin" />{" "}
+                  {isLogin ? "Logging in..." : "Signing in..."}
+                </>
+              ) : isLogin ? (
+                <>
+                  <FiLogIn /> Login
+                </>
+              ) : (
+                <>
+                  <FiUserPlus /> Sign Up
+                </>
+              )}
+            </button>
+          </form>
+        </div>
+      </div>
     </div>
   );
 }
