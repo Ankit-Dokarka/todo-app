@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { FiCheckSquare, FiUser, FiKey, FiLogOut, FiBell } from "react-icons/fi";
+import { FiCheckSquare, FiUser, FiLogOut, FiBell } from "react-icons/fi";
 import "./Header.css";
 import { useNavigate } from "react-router-dom";
 
@@ -61,15 +61,6 @@ export default function Header({ handleLogout }) {
                 }}
               >
                 <FiUser /> My Profile
-              </button>
-              <button
-                className="dropdown-item"
-                onClick={() => {
-                  setIsDropdownOpen(false);
-                  navigate("/settings");
-                }}
-              >
-                <FiKey /> Change Password
               </button>
 
               <div className="dropdown-divider" />
