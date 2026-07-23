@@ -6,7 +6,27 @@ export default function TodoList({
   deleteTodo,
   editTodo,
   handleToggleTodo,
+  isLoading,
 }) {
+  if (isLoading) {
+    return (
+      <div className="list-container">
+        {[...Array(4)].map((_, index) => (
+          <div className="list-item skeleton-item" key={index}>
+            <div className="left-side">
+              <div className="skeleton skeleton-checkbox"></div>
+              <div className="skeleton skeleton-text"></div>
+            </div>
+            <div className="right-side">
+              <div className="skeleton skeleton-btn"></div>
+              <div className="skeleton skeleton-btn"></div>
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
   return (
     <div className="list-container">
       {todos.length > 0 ? (

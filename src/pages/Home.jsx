@@ -15,12 +15,24 @@ export default function Home() {
   const [inputValue, setInputValue] = useState("");
   const [editingId, setEditingId] = useState(null);
   const [activeTab, setActiveTab] = useState("all");
+  const [isLoading, setIsLoading] = useState(true);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalConfig, setModalConfig] = useState({ title: "", message: "" });
   const [confirmCallback, setConfirmCallback] = useState(null);
 
   useEffect(() => {
+    setIsLoading(true);
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    if (isLoading) return;
+
     const currentUser = localStorage.getItem("currentUser");
     const users = JSON.parse(localStorage.getItem("users")) || {};
 
@@ -28,35 +40,44 @@ export default function Home() {
 
     users[currentUser].todos = todos;
     localStorage.setItem("users", JSON.stringify(users));
-  }, [todos]);
+  }, [todos, isLoading]);
 
   const addTodo = () => {
-    if (!inputValue.trim()) return;
+    if (!inputValue.trim() || isLoading) return;
 
-    if (editingId !== null) {
-      setTodos((prev) =>
-        prev.map((todo) =>
-          todo.id === editingId ? { ...todo, todoName: inputValue } : todo,
-        ),
-      );
-      setEditingId(null);
-    } else {
-      const newTodo = {
-        id: Date.now(),
-        todoName: inputValue,
-        completed: false,
-      };
-      setTodos((prev) => [newTodo, ...prev]);
-    }
-    setInputValue("");
+    setIsLoading(true);
+    setTimeout(() => {
+      if (editingId !== null) {
+        setTodos((prev) =>
+          prev.map((todo) =>
+            todo.id === editingId ? { ...todo, todoName: inputValue } : todo,
+          ),
+        );
+        setEditingId(null);
+      } else {
+        const newTodo = {
+          id: Date.now(),
+          todoName: inputValue,
+          completed: false,
+        };
+        setTodos((prev) => [newTodo, ...prev]);
+      }
+      setInputValue("");
+      setIsLoading(false);
+    }, 600);
   };
 
   const deleteTodo = (id) => {
-    const newTodos = todos.filter((todo) => todo.id !== id);
-    setTodos(newTodos);
+    if (isLoading) return;
+    setIsLoading(true);
+    setTimeout(() => {
+      setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
+      setIsLoading(false);
+    }, 600);
   };
 
   const editTodo = (id) => {
+    if (isLoading) return;
     const todo = todos.find((todo) => todo.id === id);
     if (todo.completed) {
       setInputValue("");
@@ -72,6 +93,7 @@ export default function Home() {
   };
 
   const handleToggleTodo = (id) => {
+    if (isLoading) return;
     setTodos((prevTodos) =>
       prevTodos.map((todo) =>
         todo.id === id ? { ...todo, completed: !todo.completed } : todo,
@@ -90,14 +112,13 @@ export default function Home() {
     }
   })();
 
-  //   const deleteAllTodos = () => {
-  //     setTodos([]);
-  //     localStorage.setItem("todos", JSON.stringify(todos));
-  //   };
+  // const deleteAllTodos = () => {
+  //   setTodos([]);
+  // };
 
-  //   const deleteCompletedTodos = () => {
-  //     setTodos((prev) => prev.filter((todo) => !todo.completed));
-  //   };
+  // const deleteCompletedTodos = () => {
+  //   setTodos((prev) => prev.filter((todo) => !todo.completed));
+  // };
 
   const openConfirmationModal = (title, message, callback) => {
     setModalConfig({ title, message });
@@ -118,23 +139,23 @@ export default function Home() {
     );
   };
 
-  //   const handleDeleteAllClick = () => {
-  //     if (todos.length === 0) return;
-  //     openConfirmationModal(
-  //       "Delete All Todos?",
-  //       "Warning: This will delete every todo in your list. This action cannot be undone.",
-  //       deleteAllTodos,
-  //     );
-  //   };
+  // const handleDeleteAllClick = () => {
+  //   if (todos.length === 0) return;
+  //   openConfirmationModal(
+  //     "Delete All Todos?",
+  //     "Warning: This will delete every todo in your list. This action cannot be undone.",
+  //     deleteAllTodos,
+  //   );
+  // };
 
-  //   const handleDeleteCompletedClick = () => {
-  //     if (!todos.some((todo) => todo.completed)) return;
-  //     openConfirmationModal(
-  //       "Delete Completed Todos?",
-  //       "This will permanently remove all completed todos. This action cannot be undone.",
-  //       deleteCompletedTodos,
-  //     );
-  //   };
+  // const handleDeleteCompletedClick = () => {
+  //   if (!todos.some((todo) => todo.completed)) return;
+  //   openConfirmationModal(
+  //     "Delete Completed Todos?",
+  //     "This will permanently remove all completed todos. This action cannot be undone.",
+  //     deleteCompletedTodos,
+  //   );
+  // };
 
   return (
     <>
@@ -155,6 +176,7 @@ export default function Home() {
           inputValue={inputValue}
           setInputValue={setInputValue}
           editId={editingId}
+          isDisabled={isLoading}
         />
       </section>
 
@@ -168,6 +190,7 @@ export default function Home() {
                 className="filter-dropdown"
                 value={activeTab}
                 onChange={(e) => handleTabs(e.target.value)}
+                disabled={isLoading}
               >
                 <option value="all">All Todos</option>
                 <option value="completed">Completed</option>
@@ -179,12 +202,14 @@ export default function Home() {
               <button
                 className="list-action-btn"
                 onClick={handleDeleteCompletedClick}
+                disabled={isLoading}
               >
                 Clear Completed
               </button>
               <button
                 className="list-action-btn danger"
                 onClick={handleDeleteAllClick}
+                disabled={isLoading}
               >
                 <FiTrash2 /> Delete All
               </button>
@@ -197,6 +222,7 @@ export default function Home() {
           deleteTodo={handleDeleteTodoClick}
           editTodo={editTodo}
           handleToggleTodo={handleToggleTodo}
+          isLoading={isLoading}
         />
       </section>
 
