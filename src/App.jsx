@@ -4,7 +4,7 @@ import TodoInput from "./components/TodoInput";
 import TodoList from "./components/TodoList";
 import ConfirmationModal from "./components/ConfirmationModal";
 
-import { FiCheckSquare, FiTrash2, FiLogOut } from "react-icons/fi";
+import Header from "./components/Header";
 
 function App() {
   const navigate = useNavigate();
@@ -145,31 +145,11 @@ function App() {
 
   return (
     <div className="app-shell">
-      <header className="app-header">
-        <div className="header-brand">
-          <FiCheckSquare size={24} />
-          <h1>Todo Manager</h1>
-        </div>
-
-        <div className="header-actions">
-          <button
-            className="header-action-btn"
-            onClick={handleDeleteCompletedClick}
-          >
-            Delete completed
-          </button>
-          <button className="header-action-btn" onClick={handleDeleteAllClick}>
-            <FiTrash2 /> Delete all
-          </button>
-
-          <button
-            className="header-action-btn logout-btn"
-            onClick={handleLogout}
-          >
-            <FiLogOut /> Logout
-          </button>
-        </div>
-      </header>
+      <Header
+        handleDeleteAllClick={handleDeleteAllClick}
+        handleDeleteCompletedClick={handleDeleteCompletedClick}
+        handleLogout={handleLogout}
+      />
 
       <main className="app-main">
         <div className="main-header">
