@@ -1,0 +1,75 @@
+.todo-input-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  background-color: var(--color-surface);
+  padding: 0.5rem;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 2rem;
+}
+
+.todo-input {
+  padding: 0.75rem 1rem;
+  flex: 1 1 100%;
+  border: none;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 1rem;
+  color: var(--color-text);
+  background-color: #f8fafc;
+}
+
+.todo-input:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: -1px;
+  border-radius: 6px;
+  background-color: var(--color-surface);
+}
+
+.add-todo-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  background-color: var(--color-primary);
+  color: var(--color-surface);
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  white-space: nowrap;
+  flex: 1;
+}
+
+.add-todo-btn:hover:not(:disabled) {
+  background-color: var(--color-primary-hover);
+}
+
+.add-todo-btn:disabled {
+  background-color: #cbd5e1;
+  color: #94a3b8;
+  cursor: not-allowed;
+}
+
+.add-todo-btn p {
+  margin: 0;
+  line-height: 1;
+}
+
+@media (min-width: 480px) {
+  .todo-input-container {
+    flex-wrap: nowrap;
+  }
+  .todo-input {
+    flex: 1;
+  }
+  .add-todo-btn {
+    flex: none;
+  }
+}
