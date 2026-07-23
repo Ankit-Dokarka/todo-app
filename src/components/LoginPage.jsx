@@ -82,13 +82,6 @@ export default function LoginPage() {
     <div className="login-page">
       <div className="login-image-container">
         <img src="/bg-image.png" alt="Todo App Background" />
-        {/* <div className="image-overlay">
-          <h2>Organize your work seamlessly.</h2>
-          <p>
-            Sign in to access your personalized todo dashboard and stay
-            productive.
-          </p>
-        </div> */}
       </div>
 
       <div className="login-form-container">
@@ -118,11 +111,16 @@ export default function LoginPage() {
             </button>
           </div>
 
-          <form onSubmit={handleSubmit(onSubmit)} noValidate>
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            noValidate
+            className="form-animated"
+            key={isLogin ? "login-form" : "signup-form"}
+          >
             {formError && <div className="login-error-box">{formError}</div>}
 
             {!isLogin && (
-              <div className="name-row animated-fields">
+              <div className="name-row">
                 <div className="login-input-group">
                   <label htmlFor="firstName">First Name</label>
                   <input
@@ -213,7 +211,7 @@ export default function LoginPage() {
             </div>
 
             {!isLogin && (
-              <div className="login-input-group animated-fields">
+              <div className="login-input-group">
                 <label htmlFor="confirmPassword">Confirm Password</label>
                 <div className="password-wrapper">
                   <input

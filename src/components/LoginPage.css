@@ -20,28 +20,6 @@
   object-position: center top;
 }
 
-/* .image-overlay {
-  position: absolute;
-  bottom: 0;
-  left: 5;
-  right: 0;
-  padding: 3rem;
-  background: linear-gradient(to top, rgba(15, 23, 42, 0.9), transparent);
-  color: var(--color-surface);
-}
-
-.image-overlay h2 {
-  font-size: 1.75rem;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-}
-
-.image-overlay p {
-  font-size: 1rem;
-  opacity: 0.8;
-  max-width: 400px;
-} */
-
 .login-form-container {
   flex: 1;
   display: flex;
@@ -227,8 +205,8 @@
   margin-bottom: 0.5rem;
 }
 
-.animated-fields {
-  animation: slideDownFade 0.3s ease forwards;
+.form-animated {
+  animation: slideDownFade 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 .login-btn {
