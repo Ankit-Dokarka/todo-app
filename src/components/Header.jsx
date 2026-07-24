@@ -36,7 +36,7 @@ export default function Header({ handleLogout, onAddClick }) {
 
       <div className="header-actions">
         <button className="header-add-btn" onClick={onAddClick}>
-          <FiPlus /> Add Task
+          <FiPlus /> Add Todo
         </button>
 
         <button className="header-icon-btn" aria-label="Notifications">

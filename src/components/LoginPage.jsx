@@ -81,7 +81,7 @@ export default function LoginPage() {
   return (
     <div className="login-page">
       <div className="login-image-container">
-        <img src="/bg-image.png" alt="Todo App Background" />
+        <img src="/bg-image.webp" alt="Todo App Background" />
       </div>
 
       <div className="login-form-container">
@@ -189,10 +189,14 @@ export default function LoginPage() {
                   className={errors.password ? "input-error" : ""}
                   {...register("password", {
                     required: "Password is required",
-                    pattern: {
-                      value:
-                        /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{6,}$/,
-                      message: "Min 6 chars, 1 uppercase, 1 number, 1 symbol",
+                    validate: (value) => {
+                      if (isLogin) return true;
+
+                      return (
+                        /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{6,}$/.test(
+                          value,
+                        ) || "Min 6 chars, 1 uppercase, 1 number, 1 symbol"
+                      );
                     },
                   })}
                 />

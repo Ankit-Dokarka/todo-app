@@ -84,8 +84,7 @@ export default function Profile() {
     setTimeout(() => setPassMessage({ type: "", text: "" }), 3000);
   };
 
-  const initials =
-    `${userData.firstName?.charAt(0) || ""}${userData.lastName?.charAt(0) || ""}`.toUpperCase();
+  const initials = `${userData.firstName?.charAt(0) || ""}`.toUpperCase();
   const fullName =
     `${userData.firstName || ""} ${userData.lastName || ""}`.trim();
 
