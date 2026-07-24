@@ -200,3 +200,23 @@
     gap: 0.25rem;
   }
 }
+.back-to-home-btn-notification {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  font-family: inherit;
+  font-weight: 500;
+  font-size: 0.9rem;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 0.5rem;
+  width: fit-content;
+  transition: color 0.2s ease;
+}
+
+.back-to-home-btn-notification:hover {
+  color: var(--color-primary);
+}

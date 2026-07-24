@@ -1,9 +1,10 @@
-import { useOutletContext } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import {
   FiBell,
   FiAlertTriangle,
   FiClock,
   FiCheckCircle,
+  FiArrowLeft,
 } from "react-icons/fi";
 import "./Notification.css";
 
@@ -19,11 +20,18 @@ const getRelativeTime = (timestamp) => {
 };
 
 export default function Notification() {
+  const navigate = useNavigate();
   const { notifications } = useOutletContext();
   const notifList = notifications || [];
 
   return (
     <div className="notifications-page">
+      <button
+        className="back-to-home-btn-notification"
+        onClick={() => navigate("/")}
+      >
+        <FiArrowLeft /> Back to Home
+      </button>
       <div className="notifications-header">
         <div className="header-text">
           <h2>Notifications</h2>
