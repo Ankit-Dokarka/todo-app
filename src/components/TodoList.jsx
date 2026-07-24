@@ -1,4 +1,4 @@
-import { FiEdit2, FiTrash2 } from "react-icons/fi";
+import { FiEdit2, FiTrash2, FiClock } from "react-icons/fi";
 import "./TodoList.css";
 
 const lightColors = [
@@ -24,7 +24,10 @@ export default function TodoList({
         {[...Array(6)].map((_, index) => (
           <div className="list-item skeleton-item" key={index}>
             <div className="card-top">
-              <div className="skeleton skeleton-text"></div>
+              <div className="card-text">
+                <div className="skeleton skeleton-text"></div>
+                <div className="skeleton skeleton-desc"></div>
+              </div>
             </div>
             <div className="card-bottom">
               <div className="skeleton skeleton-tag"></div>
@@ -44,7 +47,6 @@ export default function TodoList({
       {todos.length > 0 ? (
         todos.map((todo) => {
           const bgColor = lightColors[todo.id % lightColors.length];
-
           return (
             <div
               className="list-item"
@@ -52,9 +54,16 @@ export default function TodoList({
               style={{ backgroundColor: bgColor }}
             >
               <div className="card-top">
-                <p className={todo.completed ? "completed" : ""}>
-                  {todo.todoName}
-                </p>
+                <div className="card-text">
+                  <p
+                    className={`card-title ${todo.completed ? "completed" : ""}`}
+                  >
+                    {todo.title}
+                  </p>
+                  {todo.description && (
+                    <p className="card-desc">{todo.description}</p>
+                  )}
+                </div>
                 <input
                   type="checkbox"
                   className="todo-checkbox"
@@ -64,16 +73,29 @@ export default function TodoList({
               </div>
 
               <div className="card-bottom">
-                <span
-                  className={`todo-status ${todo.completed ? "is-completed" : "is-pending"}`}
-                >
-                  {todo.completed ? "Completed" : "Pending"}
-                </span>
+                <div className="card-meta">
+                  <span
+                    className={`todo-status ${todo.completed ? "is-completed" : "is-pending"}`}
+                  >
+                    {todo.completed ? "Completed" : "Pending"}
+                  </span>
+                  {todo.time && (
+                    <span className="todo-time">
+                      <FiClock />{" "}
+                      {new Date(todo.time).toLocaleString("en-US", {
+                        month: "short",
+                        day: "numeric",
+                        hour: "numeric",
+                        minute: "2-digit",
+                      })}
+                    </span>
+                  )}
+                </div>
 
                 <div className="card-actions">
                   <button
                     className="icon-btn edit-btn"
-                    onClick={() => editTodo(todo.id)}
+                    onClick={() => editTodo(todo)}
                     disabled={todo.completed}
                     data-tooltip="Edit"
                   >

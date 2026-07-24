@@ -200,3 +200,30 @@
     transform: translateY(0);
   }
 }
+
+.header-add-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 0.9rem;
+  background-color: var(--color-primary);
+  color: var(--color-surface);
+  border: none;
+  border-radius: 6px;
+  font-family: inherit;
+  font-weight: 500;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.header-add-btn:hover {
+  background-color: var(--color-primary-hover);
+}
+
+@media (max-width: 640px) {
+  .header-add-btn {
+    display: none;
+  }
+}

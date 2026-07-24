@@ -213,3 +213,50 @@
     display: none;
   }
 }
+
+.card-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1;
+}
+
+.card-title {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--color-text);
+  word-break: break-word;
+}
+
+.card-title.completed {
+  text-decoration: line-through;
+  color: var(--color-text-muted);
+}
+
+.card-desc {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  line-height: 1.4;
+  margin-top: 0.25rem;
+}
+
+.card-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.todo-time {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.skeleton-desc {
+  height: 14px;
+  width: 60%;
+  margin-top: 0.5rem;
+}

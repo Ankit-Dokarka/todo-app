@@ -1,12 +1,17 @@
 import { useState, useEffect, useRef } from "react";
-import { FiCheckSquare, FiUser, FiLogOut, FiBell } from "react-icons/fi";
+import {
+  FiCheckSquare,
+  FiUser,
+  FiLogOut,
+  FiBell,
+  FiPlus,
+} from "react-icons/fi";
 import "./Header.css";
 import { useNavigate } from "react-router-dom";
 
-export default function Header({ handleLogout }) {
+export default function Header({ handleLogout, onAddClick }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
-
   const navigate = useNavigate();
 
   const currentUserEmail = localStorage.getItem("currentUser") || "User";
@@ -18,7 +23,6 @@ export default function Header({ handleLogout }) {
         setIsDropdownOpen(false);
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
@@ -31,6 +35,10 @@ export default function Header({ handleLogout }) {
       </div>
 
       <div className="header-actions">
+        <button className="header-add-btn" onClick={onAddClick}>
+          <FiPlus /> Add Task
+        </button>
+
         <button className="header-icon-btn" aria-label="Notifications">
           <FiBell size={18} />
         </button>
@@ -50,9 +58,7 @@ export default function Header({ handleLogout }) {
                 <span className="dropdown-label">Signed in as</span>
                 <strong className="dropdown-email">{currentUserEmail}</strong>
               </div>
-
               <div className="dropdown-divider" />
-
               <button
                 className="dropdown-item"
                 onClick={() => {
@@ -62,9 +68,7 @@ export default function Header({ handleLogout }) {
               >
                 <FiUser /> My Profile
               </button>
-
               <div className="dropdown-divider" />
-
               <button
                 className="dropdown-item logout-item"
                 onClick={() => {
