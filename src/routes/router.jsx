@@ -6,6 +6,7 @@ import PublicRoute from "./PublicRoute";
 import Home from "../pages/Home";
 import Profile from "../pages/Profile";
 import NotFound from "../pages/NotFound";
+import Notification from "../pages/Notification";
 
 export const router = createBrowserRouter([
   {
@@ -18,6 +19,7 @@ export const router = createBrowserRouter([
     children: [
       { index: true, element: <Home /> },
       { path: "profile", element: <Profile /> },
+      { path: "notification", element: <Notification /> },
     ],
   },
   {

@@ -39,7 +39,11 @@ export default function Header({ handleLogout, onAddClick }) {
           <FiPlus /> Add Todo
         </button>
 
-        <button className="header-icon-btn" aria-label="Notifications">
+        <button
+          className="header-icon-btn"
+          aria-label="Notifications"
+          onClick={() => navigate("/notification")}
+        >
           <FiBell size={18} />
         </button>
 
