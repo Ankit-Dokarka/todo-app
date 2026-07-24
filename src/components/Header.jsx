@@ -9,13 +9,22 @@ import {
 import "./Header.css";
 import { useNavigate } from "react-router-dom";
 
-export default function Header({ handleLogout, onAddClick }) {
+export default function Header({
+  handleLogout,
+  onAddClick,
+  notifications,
+  onNotifClick,
+}) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
 
   const currentUserEmail = localStorage.getItem("currentUser") || "User";
   const firstLetter = currentUserEmail.charAt(0).toUpperCase();
+
+  const unreadCount = notifications
+    ? notifications.filter((n) => !n.read).length
+    : 0;
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -26,6 +35,11 @@ export default function Header({ handleLogout, onAddClick }) {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  const handleBellClick = () => {
+    onNotifClick();
+    navigate("/notification");
+  };
 
   return (
     <header className="app-header">
@@ -40,11 +54,12 @@ export default function Header({ handleLogout, onAddClick }) {
         </button>
 
         <button
-          className="header-icon-btn"
+          className="header-icon-btn notif-bell-btn"
           aria-label="Notifications"
-          onClick={() => navigate("/notification")}
+          onClick={handleBellClick}
         >
           <FiBell size={18} />
+          {unreadCount > 0 && <span className="bell-badge">{unreadCount}</span>}
         </button>
 
         <div className="user-dropdown-wrapper" ref={dropdownRef}>

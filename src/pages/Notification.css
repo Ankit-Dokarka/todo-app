@@ -8,7 +8,6 @@
   gap: 1.5rem;
 }
 
-/* --- Header --- */
 .notifications-header {
   display: flex;
   justify-content: space-between;
@@ -62,7 +61,6 @@
   border: 2px solid var(--color-surface);
 }
 
-/* --- List --- */
 .notifications-list {
   display: flex;
   flex-direction: column;
@@ -91,15 +89,14 @@
 }
 
 .notification-card.unread {
-  background-color: #f8fafc; /* Slight tint for unread */
+  background-color: #f8fafc;
 }
 
-/* Priority Accents */
 .notification-card.overdue {
   border-left-color: var(--color-danger);
 }
 .notification-card.urgent {
-  border-left-color: #f59e0b; /* Amber */
+  border-left-color: #f59e0b;
 }
 .notification-card.upcoming {
   border-left-color: var(--color-primary);
@@ -108,7 +105,6 @@
   border-left-color: var(--color-success);
 }
 
-/* Icon Wrapper */
 .notif-icon-wrapper {
   display: flex;
   align-items: center;
@@ -137,7 +133,6 @@
   color: var(--color-success);
 }
 
-/* Content */
 .notif-content {
   flex: 1;
   min-width: 0;
@@ -180,11 +175,10 @@
   right: 1.5rem;
 }
 
-/* --- Responsive --- */
 @media (max-width: 480px) {
   .notifications-header {
     padding: 1.25rem;
-    flex-direction: row; /* Keep horizontal but tighter */
+    flex-direction: row;
   }
 
   .header-text h2 {

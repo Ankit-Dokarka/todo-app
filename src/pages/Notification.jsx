@@ -1,53 +1,27 @@
+import { useOutletContext } from "react-router-dom";
 import {
   FiBell,
   FiAlertTriangle,
   FiClock,
-  FiCalendar,
   FiCheckCircle,
 } from "react-icons/fi";
 import "./Notification.css";
 
-const staticNotifications = [
-  {
-    id: 1,
-    type: "overdue",
-    icon: <FiAlertTriangle />,
-    title: "Task Overdue: Finalize Q3 Report",
-    message:
-      "This task was due yesterday at 5:00 PM. Please update its status.",
-    time: "1 day ago",
-    unread: true,
-  },
-  {
-    id: 2,
-    type: "urgent",
-    icon: <FiClock />,
-    title: "Due Soon: Design System Update",
-    message: "Your task is due in 2 hours. Don't forget to submit your work.",
-    time: "1 hour ago",
-    unread: true,
-  },
-  {
-    id: 3,
-    type: "upcoming",
-    icon: <FiCalendar />,
-    title: "Upcoming: Client Presentation",
-    message: "Task scheduled for tomorrow at 10:00 AM. Prepare your slides.",
-    time: "5 hours ago",
-    unread: false,
-  },
-  {
-    id: 4,
-    type: "completed",
-    icon: <FiCheckCircle />,
-    title: "Completed: Weekly Sync Notes",
-    message: "Nice job! You completed this task earlier today.",
-    time: "Yesterday",
-    unread: false,
-  },
-];
+const getRelativeTime = (timestamp) => {
+  const now = new Date();
+  const past = new Date(timestamp);
+  const diffSeconds = Math.floor((now - past) / 1000);
+
+  if (diffSeconds < 60) return "Just now";
+  if (diffSeconds < 3600) return `${Math.floor(diffSeconds / 60)} mins ago`;
+  if (diffSeconds < 86400) return `${Math.floor(diffSeconds / 3600)} hours ago`;
+  return `${Math.floor(diffSeconds / 86400)} days ago`;
+};
 
 export default function Notification() {
+  const { notifications } = useOutletContext();
+  const notifList = notifications || [];
+
   return (
     <div className="notifications-page">
       <div className="notifications-header">
@@ -57,29 +31,61 @@ export default function Notification() {
         </div>
         <div className="header-icon">
           <FiBell />
-          <span className="notif-badge">2</span>
+          {notifList.filter((n) => !n.read).length > 0 && (
+            <span className="notif-badge">
+              {notifList.filter((n) => !n.read).length}
+            </span>
+          )}
         </div>
       </div>
 
       <div className="notifications-list">
-        {staticNotifications.map((notif) => (
-          <div
-            key={notif.id}
-            className={`notification-card ${notif.type} ${notif.unread ? "unread" : ""}`}
-          >
-            <div className="notif-icon-wrapper">{notif.icon}</div>
+        {notifList.length > 0 ? (
+          notifList.map((notif) => {
+            const icon =
+              notif.type === "overdue" ? (
+                <FiAlertTriangle />
+              ) : notif.type === "urgent" ? (
+                <FiClock />
+              ) : (
+                <FiCheckCircle />
+              );
 
-            <div className="notif-content">
-              <div className="notif-top-row">
-                <h4>{notif.title}</h4>
-                <span className="notif-time">{notif.time}</span>
+            return (
+              <div
+                key={notif.id}
+                className={`notification-card ${notif.type} ${!notif.read ? "unread" : ""}`}
+              >
+                <div className="notif-icon-wrapper">{icon}</div>
+
+                <div className="notif-content">
+                  <div className="notif-top-row">
+                    <h4>{notif.title}</h4>
+                    <span className="notif-time">
+                      {getRelativeTime(notif.timestamp)}
+                    </span>
+                  </div>
+                  <p>{notif.message}</p>
+                </div>
+
+                {!notif.read && <div className="unread-dot"></div>}
               </div>
-              <p>{notif.message}</p>
+            );
+          })
+        ) : (
+          <div className="notification-card completed">
+            <div className="notif-icon-wrapper">
+              <FiCheckCircle />
             </div>
-
-            {notif.unread && <div className="unread-dot"></div>}
+            <div className="notif-content">
+              <h4>You're all caught up!</h4>
+              <p>
+                No new notifications right now. We'll alert you 15 minutes
+                before a task is due.
+              </p>
+            </div>
           </div>
-        ))}
+        )}
       </div>
     </div>
   );
