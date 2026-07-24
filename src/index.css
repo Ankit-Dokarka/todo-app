@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
 
 :root {
-  --color-bg: #f1f5f9;
+  --color-bg: ##d4e4e691;
   --color-surface: #ffffff;
   --color-sidebar: #0f172a;
   --color-sidebar-hover: #1e293b;
@@ -48,8 +48,6 @@ body {
   overflow: hidden;
 }
 
-
-
 .app-main {
   flex: 1;
   padding: clamp(1rem, 4vw, 2.5rem) clamp(1rem, 5vw, 3rem);
@@ -58,4 +56,3 @@ body {
   flex-direction: column;
   gap: clamp(1rem, 3vw, 2rem);
 }
-
