@@ -40,10 +40,19 @@ export default function App() {
     setTimeout(() => {
       if (editingTodo) {
         setTodos((prev) =>
-          prev.map((t) => (t.id === editingTodo.id ? { ...t, ...data } : t)),
+          prev.map((t) =>
+            t.id === editingTodo.id
+              ? { ...t, ...data, updatedAt: new Date().toISOString() }
+              : t,
+          ),
         );
       } else {
-        const newTodo = { id: Date.now(), ...data, completed: false };
+        const newTodo = {
+          id: Date.now(),
+          ...data,
+          completed: false,
+          createdAt: new Date().toISOString(),
+        };
         setTodos((prev) => [newTodo, ...prev]);
       }
       setIsLoading(false);

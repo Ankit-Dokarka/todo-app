@@ -244,7 +244,7 @@
 .card-meta {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.4rem;
 }
 
 .todo-time {
@@ -252,11 +252,19 @@
   color: var(--color-text-muted);
   display: flex;
   align-items: center;
-  gap: 0.25rem;
+  gap: 0.35rem;
 }
 
 .skeleton-desc {
   height: 14px;
   width: 60%;
   margin-top: 0.5rem;
+}
+.todo-time.meta-muted {
+  font-size: 0.7rem;
+  opacity: 0.8;
+}
+
+.todo-time svg {
+  flex-shrink: 0;
 }

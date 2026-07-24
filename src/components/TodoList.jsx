@@ -1,4 +1,10 @@
-import { FiEdit2, FiTrash2, FiClock } from "react-icons/fi";
+import {
+  FiEdit2,
+  FiTrash2,
+  FiClock,
+  FiCheckCircle,
+  FiRefreshCw,
+} from "react-icons/fi";
 import "./TodoList.css";
 
 const lightColors = [
@@ -42,6 +48,16 @@ export default function TodoList({
     );
   }
 
+  const formatDateTime = (isoString) => {
+    if (!isoString) return "";
+    return new Date(isoString).toLocaleString("en-US", {
+      month: "short",
+      day: "numeric",
+      hour: "numeric",
+      minute: "2-digit",
+    });
+  };
+
   return (
     <div className="list-container">
       {todos.length > 0 ? (
@@ -79,15 +95,21 @@ export default function TodoList({
                   >
                     {todo.completed ? "Completed" : "Pending"}
                   </span>
+
                   {todo.time && (
                     <span className="todo-time">
-                      <FiClock />{" "}
-                      {new Date(todo.time).toLocaleString("en-US", {
-                        month: "short",
-                        day: "numeric",
-                        hour: "numeric",
-                        minute: "2-digit",
-                      })}
+                      <FiClock /> {formatDateTime(todo.time)}
+                    </span>
+                  )}
+
+                  {todo.updatedAt ? (
+                    <span className="todo-time meta-muted">
+                      <FiRefreshCw /> Updated: {formatDateTime(todo.updatedAt)}
+                    </span>
+                  ) : (
+                    <span className="todo-time meta-muted">
+                      <FiCheckCircle /> Created:{" "}
+                      {formatDateTime(todo.createdAt)}
                     </span>
                   )}
                 </div>
