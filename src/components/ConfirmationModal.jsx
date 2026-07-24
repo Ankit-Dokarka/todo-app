@@ -28,7 +28,10 @@ export default function ConfirmationModal({
           <button className="modal-btn modal-btn-cancel" onClick={onClose}>
             Cancel
           </button>
-          <button className="modal-btn modal-btn-confirm" onClick={onConfirm}>
+          <button
+            className="modal-btn delete-modal-btn-confirm"
+            onClick={onConfirm}
+          >
             Delete
           </button>
         </div>

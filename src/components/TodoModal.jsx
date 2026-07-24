@@ -1,32 +1,44 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
 import { FiX } from "react-icons/fi";
 import "./TodoModal.css";
 
 export default function TodoModal({ isOpen, onClose, onSave, editingTodo }) {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [time, setTime] = useState("");
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      title: "",
+      description: "",
+      time: "",
+    },
+  });
 
   useEffect(() => {
     if (isOpen) {
       if (editingTodo) {
-        setTitle(editingTodo.title || "");
-        setDescription(editingTodo.description || "");
-        setTime(editingTodo.time || "");
+        reset({
+          title: editingTodo.title || "",
+          description: editingTodo.description || "",
+          time: editingTodo.time || "",
+        });
       } else {
-        setTitle("");
-        setDescription("");
-        setTime("");
+        reset({
+          title: "",
+          description: "",
+          time: "",
+        });
       }
     }
-  }, [isOpen, editingTodo]);
+  }, [isOpen, editingTodo, reset]);
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!title.trim()) return;
-    onSave({ title, description, time });
+  const onSubmit = (data) => {
+    onSave(data);
   };
 
   return (
@@ -39,29 +51,35 @@ export default function TodoModal({ isOpen, onClose, onSave, editingTodo }) {
           <FiX />
         </button>
         <h2 className="modal-title">
-          {editingTodo ? "Edit Task" : "Add New Task"}
+          {editingTodo ? "Edit Todo" : "Add New Todo"}
         </h2>
 
-        <form onSubmit={handleSubmit} className="todo-form">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="todo-form"
+          noValidate
+        >
           <div className="form-group">
             <label>Title</label>
             <input
               type="text"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              placeholder="Task title"
-              required
+              className={errors.title ? "input-error" : ""}
+              placeholder="Todo title"
+              {...register("title", { required: "Title is required" })}
               autoFocus
             />
+            {errors.title && (
+              <p className="error-message">{errors.title.message}</p>
+            )}
           </div>
 
           <div className="form-group">
             <label>Description</label>
             <textarea
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              placeholder="Add details about this task..."
+              className={errors.description ? "input-error" : ""}
+              placeholder="Add details about this todo..."
               rows="4"
+              {...register("description")}
             />
           </div>
 
@@ -69,9 +87,12 @@ export default function TodoModal({ isOpen, onClose, onSave, editingTodo }) {
             <label>Completion Time</label>
             <input
               type="datetime-local"
-              value={time}
-              onChange={(e) => setTime(e.target.value)}
+              className={errors.time ? "input-error" : ""}
+              {...register("time", { required: "Completion time is required" })}
             />
+            {errors.time && (
+              <p className="error-message">{errors.time.message}</p>
+            )}
           </div>
 
           <div className="modal-actions">
@@ -83,7 +104,7 @@ export default function TodoModal({ isOpen, onClose, onSave, editingTodo }) {
               Cancel
             </button>
             <button type="submit" className="modal-btn modal-btn-confirm">
-              {editingTodo ? "Update Task" : "Add Task"}
+              {editingTodo ? "Update Todo" : "Add Todo"}
             </button>
           </div>
         </form>
